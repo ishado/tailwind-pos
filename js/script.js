@@ -39,7 +39,7 @@ function initApp() {
     firstTime: localStorage.getItem("first_time") === null,
     activeMenu: 'pos',
     loadingSampleData: false,
-    moneys: [2000, 5000, 10000, 20000, 50000, 100000],
+    moneys: [5, 10, 20, 50, 100, 200],
     products: [],
     keyword: "",
     cart: [],
@@ -164,7 +164,7 @@ function initApp() {
         .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.");
     },
     priceFormat(number) {
-      return number ? `Rp. ${this.numberFormat(number)}` : `Rp. 0`;
+      return number ? `LE. ${this.numberFormat(number)}` : `LE. 0`;
     },
     clear() {
       this.cash = 0;
