@@ -1,3 +1,13 @@
+let db = null;
+
+async function initDatabase() {
+  db = await idb.openDB('my-db', 1, {
+    upgrade(db) {
+      db.createObjectStore('products');
+    },
+  });
+}
+
 async function loadDatabase() {
   const db = await idb.openDB("tailwind_store", 1, {
     upgrade(db, oldVersion, newVersion, transaction) {
@@ -50,8 +60,12 @@ function initApp() {
       const response = await fetch("data/sample.json");
       const data = await response.json();
       this.products = data.products;
-      for (let product of data.products) {
-        await this.db.addProduct(product);
+      if (this.db && this.db.addProduct) {
+        for (let product of data.products) {
+          await this.db.addProduct(product);
+        }
+      } else {
+        console.error('Database is not initialized or addProduct is missing');
       }
 
       this.setFirstTime(false);
